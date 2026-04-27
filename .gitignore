@@ -1,0 +1,9 @@
+.vs/
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+.editorconfig
+.vsconfig
+Aura.sln
+shadertoolsconfig.json
