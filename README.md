@@ -18,6 +18,9 @@
 	├── Player/
 	│ └── AuraPlayerController
 	│
+	├── Game/
+	│ └── AuraGameModeBase
+	│
 	├── Samples/
 	│ ├── Moudel/
 	│ │ ├── Submoudel01

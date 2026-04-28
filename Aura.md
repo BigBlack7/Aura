@@ -23,8 +23,10 @@
 	1.使用增强输入系统，绑定IA_Move（获取二维向量）输入映射（WASD）。
 	2.根据输入值控制角色移动方向和速度，WS映射为Y轴，AD映射为X轴。
 
-### TODO
+## GameModeBase🌏
+	1. 设置默认Pawn为AuraCharacter，PlayerController为AuraPlayerController。
 
 # 🌙UE5 Note
 	1. TObjectPtr是一种模板指针类型，用于替代传统的裸指针（Raw Pointer）在某些场景中的使用。它通过封装指针并提供额外的功能，
 	如懒加载和访问追踪，提升了编辑器模式下的性能和调试能力，同时在非编辑器模式下保持与裸指针相同的效用。
+	2. 对于SpringArm和Camera组件，在蓝图中实现与C++实现无性能差异。
