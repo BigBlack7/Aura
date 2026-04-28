@@ -15,14 +15,17 @@
 	│ ├── AuraCharacter
 	│ └── AuraEnemy
 	│
-	├── Samples02/
-	│ ├── Moudel01/
+	├── Player/
+	│ └── AuraPlayerController
+	│
+	├── Samples/
+	│ ├── Moudel/
 	│ │ ├── Submoudel01
 	│ │ ├── Submoudel02
 	│ │ └── Submoudel03
 	│ │
-	│ ├── Moudel02/
-	│ └── Moudel03
+	│ ├── Moudel/
+	│ └── Moudel
 	│
-	├── Samples04/
-	└── Samples05
+	├── Samples/
+	└── Samples
