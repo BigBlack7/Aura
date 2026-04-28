@@ -2,12 +2,20 @@
 
 
 #include "Player/AuraPlayerController.h"
+#include "Interaction/TargetInterface.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 
 AAuraPlayerController::AAuraPlayerController()
 {
 	bReplicates = true;
+}
+
+void AAuraPlayerController::PlayerTick(float DeltaTime)
+{
+	Super::PlayerTick(DeltaTime);
+
+	CursorTrace();
 }
 
 void AAuraPlayerController::BeginPlay()
@@ -57,5 +65,62 @@ void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 	{
 		ControlledPawn->AddMovementInput(ForwardDirection, InputAxisVector.Y);
 		ControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);
+	}
+}
+
+void AAuraPlayerController::CursorTrace()
+{
+	FHitResult CursorHit;
+	/**
+	* 获取鼠标光标下的碰撞结果，使用可见性通道进行碰撞检测，不复杂查询
+	* 为什么使用可见性通道？因为我们通常只关心玩家能看到的对象，而不是所有对象，这样可以提高性能并避免不必要的交互
+	* False的原因？因为我们不需要复杂查询（如物理模拟或复杂的碰撞形状），只需要简单的碰撞检测来确定鼠标光标下的对象即可，这样可以进一步提高性能
+	*/
+	GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
+	if (!CursorHit.bBlockingHit) return;
+
+	LastTarget = CurrentTarget;
+	CurrentTarget = CursorHit.GetActor();
+
+	/**
+	* 光标射线检测场景
+	* A. Last Null	&& Current Null：什么都没有，保持不变
+	* B. Last Null	&& Current Valid：新目标，调用HighlightActor
+	* C. Last Valid && Current Null：失去目标，调用UnHighlightActor
+	* D. Last Valid && Current Valid && Last != Current：切换目标，调用Last的UnHighlightActor和Current的HighlightActor
+	* E. Last Valid && Current Valid && Last == Current：同一目标，保持不变
+	*/
+	if (LastTarget == nullptr)
+	{
+		if (CurrentTarget != nullptr)
+		{
+			// case B
+			CurrentTarget->HighlightActor();
+		}
+		else // Current Null
+		{
+			// case A
+		}
+	}
+	else // LastTarget Valid
+	{
+		if (CurrentTarget == nullptr)
+		{
+			// case C
+			LastTarget->UnHighlightActor();
+		}
+		else // CurrentTarget Valid
+		{
+			if (LastTarget != CurrentTarget)
+			{
+				// case D
+				LastTarget->UnHighlightActor();
+				CurrentTarget->HighlightActor();
+			}
+			else
+			{
+				// case E
+			}
+		}
 	}
 }

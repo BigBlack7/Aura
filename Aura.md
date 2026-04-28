@@ -14,7 +14,6 @@
 #### Spear Goblin & Slingshot Goblin 
 	1.使用长矛和弹弓，有各自不同的派生动画蓝图。
 
-
 ---
 
 ## AuraPlayController🎮
@@ -24,9 +23,16 @@
 	2.根据输入值控制角色移动方向和速度，WS映射为Y轴，AD映射为X轴。
 
 ## GameModeBase🌏
-	1. 设置默认Pawn为AuraCharacter，PlayerController为AuraPlayerController。
+	1.设置默认Pawn为AuraCharacter，PlayerController为AuraPlayerController。
+
+## TargetInterface🎯
+	1.为所有可选中物体提供接口，被选中时启用描边高亮效果，通过后处理体积附加特殊材质，然后处理被选择物体的深度渲染。
 
 # 🌙UE5 Note
-	1. TObjectPtr是一种模板指针类型，用于替代传统的裸指针（Raw Pointer）在某些场景中的使用。它通过封装指针并提供额外的功能，
+	1.TObjectPtr是一种模板指针类型，用于替代传统的裸指针（Raw Pointer）在某些场景中的使用。它通过封装指针并提供额外的功能，
 	如懒加载和访问追踪，提升了编辑器模式下的性能和调试能力，同时在非编辑器模式下保持与裸指针相同的效用。
-	2. 对于SpringArm和Camera组件，在蓝图中实现与C++实现无性能差异。
+
+	2.对于SpringArm和Camera组件，在蓝图中实现与C++实现无性能差异。
+
+	3. UxxxInterface给引擎看的，IxxxInterface给程序员写逻辑的。IxxxInterface作为成员变量时需要TScriptInterface包装，
+	TScriptInterface会自动处理接口指针的生命周期和类型安全问题，避免了手动管理内存和类型转换的复杂性。

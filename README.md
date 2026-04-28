@@ -21,6 +21,9 @@
 	├── Game/
 	│ └── AuraGameModeBase
 	│
+	├── Interaction/
+	│ └── TargetInterface
+	│
 	├── Samples/
 	│ ├── Moudel/
 	│ │ ├── Submoudel01
