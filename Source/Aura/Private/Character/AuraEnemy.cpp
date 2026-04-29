@@ -1,12 +1,20 @@
 // Copyright YanShan University Master.BigBlack7.
 
 
-#include "Character/AuraEnemy.h"
 #include "Aura/Aura.h"
+#include "Character/AuraEnemy.h"
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "AbilitySystem/AuraAttributeSet.h"
 
 AAuraEnemy::AAuraEnemy()
 {
 	GetMesh()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Block);
+
+	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
+	AbilitySystemComponent->SetIsReplicated(true); // 启用复制，使得该组件的数据能够在网络中同步
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal); // 设置复制模式为Minimal，表示只复制必要的数据，减少网络带宽的使用
+
+	AttributeSet = CreateDefaultSubobject<UAttributeSet>("AttributeSet");
 }
 
 void AAuraEnemy::HighlightActor()
@@ -23,4 +31,13 @@ void AAuraEnemy::UnHighlightActor()
 {
 	GetMesh()->SetRenderCustomDepth(false);
 	Weapon->SetRenderCustomDepth(false);
+}
+
+void AAuraEnemy::BeginPlay()
+{
+	Super::BeginPlay();
+	// 初始化AbilitySystemComponent，设置它的拥有者和角色信息，使得它能够正确地管理和执行技能
+	// 第一个参数是AbilitySystemComponent的拥有者，第二个参数是角色信息，通常是指这个组件所在的Actor
+	// 都设置为this，表示这个组件既是拥有者也是角色信息
+	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 }

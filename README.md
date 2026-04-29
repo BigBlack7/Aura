@@ -16,7 +16,12 @@
 	│ └── AuraEnemy
 	│
 	├── Player/
+	│ ├── AuraPlayerState
 	│ └── AuraPlayerController
+	│
+	├── AbilitySystem/
+	│ ├── AuraAttributeSet
+	│ └── AuraAbilitySystemComponent
 	│
 	├── Game/
 	│ └── AuraGameModeBase
