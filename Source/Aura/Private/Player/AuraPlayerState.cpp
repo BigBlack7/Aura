@@ -12,7 +12,8 @@ AAuraPlayerState::AAuraPlayerState()
 
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 
-	AttributeSet = CreateDefaultSubobject<UAttributeSet>("AttributeSet");
+	// Debug回忆录：类型写成UAttributeSet导致AuraEffectActor中的Cast失败，AuraAttributeSet为空，痛苦折磨两小时
+	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
 
 	NetUpdateFrequency = 100.f;// 服务器每秒更新玩家状态的频率，默认是100次每秒
 }

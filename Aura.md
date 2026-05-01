@@ -25,9 +25,14 @@
 	1.使用增强输入系统，绑定IA_Move（获取二维向量）输入映射（WASD）。
 	2.根据输入值控制角色移动方向和速度，WS映射为Y轴，AD映射为X轴。
 
-### AuraPlayerState属性
+### AuraPlayerState
+	1.拥有AbilitySystemComponent和AttributeSet,并使用Mixed复制模式。
+
+### AttributeSet
 	1.持有玩家的生命值、魔法值、等级等属性，并通过GAS进行管理和更新。
-	2.拥有AbilitySystemComponent和AttributeSet,并使用Mixed复制模式。
+
+### AuraEffectActor
+	1.一个特殊的Actor类，用于在游戏中表现GameplayEffect的视觉效果，如技能特效等。
 
 ---
 
@@ -58,6 +63,10 @@
 	6.Mixed模式要求OwnerActor->GetOwner()必须是Controller：服务器要通过Controller找到 “是哪个客户端在预测”，如果找不到，Mixed模式就失效了（要么卡，要么不同步）。
 	7.敌人是AI，不需要客户端预测：移动、技能都是服务器算好的，客户端只负责 “看”，不需要本地预测，所以用Minimal模式就够了。
 
+### Prediction机制
+	Game Effects为Client修改属性值时，该变化会立刻在Client上反映出来（预测），同时发送请求到Server验证。
+	Server验证后会同步结果给所有Client，不合理的变动会被检测机制回滚，确保最终状态一致合理，避免延迟过高。
+
 ---
 
 ## 默认游戏模式🌏
@@ -76,3 +85,5 @@
 
 	3. UxxxInterface给引擎看的，IxxxInterface给程序员写逻辑的。IxxxInterface作为成员变量时需要TScriptInterface包装，
 	TScriptInterface会自动处理接口指针的生命周期和类型安全问题，避免了手动管理内存和类型转换的复杂性。
+
+	4.DebugMode运行编辑器可以使用控制台显示AbilitySystem的相关信息，如主角的AttributeSet属性值等，也可以切换到场景其他目标。

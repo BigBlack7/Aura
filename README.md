@@ -11,32 +11,36 @@
 	Aura/
 	│
 	├── Character/
-	│ ├── AuraCharacterBase
-	│ ├── AuraCharacter
-	│ └── AuraEnemy
+	│	├── AuraCharacterBase
+	│	├── AuraCharacter
+	│	└── AuraEnemy
 	│
 	├── Player/
-	│ ├── AuraPlayerState
-	│ └── AuraPlayerController
+	│	├── AuraPlayerState
+	│	└── AuraPlayerController
 	│
 	├── AbilitySystem/
-	│ ├── AuraAttributeSet
-	│ └── AuraAbilitySystemComponent
+	│	├── AuraAttributeSet
+	│	└── AuraAbilitySystemComponent
 	│
 	├── Game/
-	│ └── AuraGameModeBase
+	│	└── AuraGameModeBase
 	│
 	├── Interaction/
-	│ └── TargetInterface
+	│	└── TargetInterface
 	│
+	└── Actor/
+		└── AuraEffectActor
+	
+
 	├── Samples/
-	│ ├── Moudel/
-	│ │ ├── Submoudel01
-	│ │ ├── Submoudel02
-	│ │ └── Submoudel03
-	│ │
-	│ ├── Moudel/
-	│ └── Moudel
+	│	├── Moudel/
+	│	│	├── Submoudel01
+	│	│	├── Submoudel02
+	│	│	└── Submoudel03
+	│	│
+	│	├── Moudel/
+	│	└── Moudel
 	│
 	├── Samples/
 	└── Samples
