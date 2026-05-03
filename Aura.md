@@ -36,6 +36,19 @@
 
 ---
 
+## Game UI💻
+
+### AuraHUD
+	1.WBP_Overlay拥有各类玩家属性UI，如生命值、魔法值等，并通过HUD显示在屏幕上。
+
+### AuraWidgetController
+	1.不感知任何控件，负责从系统中的Model架构获取任何数据（如角色属性集）并将其广播给所有控制器为它的Widget。
+
+### AuraUserWidget
+	1.单方面拥有控件控制器。派生WBP_GlobeProgressBar来制作玩家各类属性的UI显示，如生命值、魔法值等。
+
+---
+
 ## GAS🗡
 
 ### Multiplayer
@@ -69,12 +82,13 @@
 
 ---
 
-## 默认游戏模式🌏
+## 其他功能🔧
+
+### 默认游戏模式
 	1.GameModeBase设置默认Pawn为AuraCharacter，PlayerController为AuraPlayerController。
+	2.默认玩家状态为AuraPlayerState。
 
----
-
-## 细分功能工具🎯
+### 细分功能工具
 	1. TargetInterface为所有可选中物体提供接口，被选中时启用描边高亮效果，通过后处理体积附加特殊材质，然后处理被选择物体的深度渲染。
 
 # 🌙UE5 Note

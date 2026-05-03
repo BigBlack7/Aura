@@ -23,6 +23,16 @@
 	│	├── AuraAttributeSet
 	│	└── AuraAbilitySystemComponent
 	│
+	├── UI/
+	│	├── Widget/
+	│	│	└── AuraUserWidget
+	│	│
+	│	├── UI/
+	│	│	└── AuraHUD
+	│	│
+	│	└── WidgetController/
+	│		└── AuraWidgetController
+	│
 	├── Game/
 	│	└── AuraGameModeBase
 	│
