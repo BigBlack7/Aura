@@ -6,11 +6,11 @@
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
-	InitHealth(100.f);
+	InitHealth(50.f);
 	InitMaxHealth(100.f);
 
 	InitMana(50.f);
-	InitMaxMana(50.f);
+	InitMaxMana(75.f);
 }
 
 void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -27,6 +27,7 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 
 void UAuraAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const
 {
+	// 当Health属性从服务器复制到客户端时，自动调用OnRep_Health函数，并使用GAMEPLAYATTRIBUTE_REPNOTIFY宏来处理属性变化的通知逻辑
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Health, OldHealth);
 }
 

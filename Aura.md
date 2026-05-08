@@ -31,21 +31,32 @@
 ### AttributeSet
 	1.持有玩家的生命值、魔法值、等级等属性，并通过GAS进行管理和更新。
 
-### AuraEffectActor
-	1.一个特殊的Actor类，用于在游戏中表现GameplayEffect的视觉效果，如技能特效等。
-
 ---
 
 ## Game UI💻
 
 ### AuraHUD
 	1.WBP_Overlay拥有各类玩家属性UI，如生命值、魔法值等，并通过HUD显示在屏幕上。
+	2.在AuraCharacter的InitAbilityActorInfo中将HUD初始化。
 
 ### AuraWidgetController
 	1.不感知任何控件，负责从系统中的Model架构获取任何数据（如角色属性集）并将其广播给所有控制器为它的Widget。
 
+### OverlayWidgetController
+	1.派生自AuraWidgetController，专门为WBP_Overlay提供数据支持。
+	2.创建多个动态多播委托来广播不同属性的变化，如生命值、魔法值等。
+	3.当控件蓝图能够访问控件控制器，广播属性值信息时，就可以分配一个事件来接受这些。
+
 ### AuraUserWidget
 	1.单方面拥有控件控制器。派生WBP_GlobeProgressBar来制作玩家各类属性的UI显示，如生命值、魔法值等。
+
+---
+
+## GameEffectSystem⚡
+
+### AuraEffectActor
+	1.在游戏中表现GameplayEffect的效果，如增益效果，回复属性等。
+	2.包含Instant；
 
 ---
 
@@ -77,8 +88,8 @@
 	7.敌人是AI，不需要客户端预测：移动、技能都是服务器算好的，客户端只负责 “看”，不需要本地预测，所以用Minimal模式就够了。
 
 ### Prediction机制
-	Game Effects为Client修改属性值时，该变化会立刻在Client上反映出来（预测），同时发送请求到Server验证。
-	Server验证后会同步结果给所有Client，不合理的变动会被检测机制回滚，确保最终状态一致合理，避免延迟过高。
+	1.Game Effects为Client修改属性值时，该变化会立刻在Client上反映出来（预测），同时发送请求到Server验证。
+	2.Server验证后会同步结果给所有Client，不合理的变动会被检测机制回滚，确保最终状态一致合理，避免延迟过高。
 
 ---
 

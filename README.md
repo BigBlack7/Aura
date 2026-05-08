@@ -31,6 +31,7 @@
 	│	│	└── AuraHUD
 	│	│
 	│	└── WidgetController/
+	│		├── OverlayWidgetController
 	│		└── AuraWidgetController
 	│
 	├── Game/

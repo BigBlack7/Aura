@@ -1,8 +1,8 @@
 // Copyright YanShan University Master.BigBlack7.
 
 
-#include "Aura/Aura.h"
 #include "Character/AuraEnemy.h"
+#include "Aura/Aura.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 
