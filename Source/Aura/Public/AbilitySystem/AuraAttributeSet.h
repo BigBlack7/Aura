@@ -13,6 +13,42 @@
 		GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 		GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
+class UAbilitySystemComponent;
+
+USTRUCT()
+struct FEffectProperties
+{
+	GENERATED_BODY()
+
+	FEffectProperties(){}
+
+	FGameplayEffectContextHandle EffectContextHandle;
+	
+	UPROPERTY()
+	UAbilitySystemComponent* SourceASC{nullptr};
+
+	UPROPERTY()
+	AActor* SourceAvatarActor{nullptr};
+
+	UPROPERTY()
+	AController* SourceController{nullptr};
+	
+	UPROPERTY()
+	ACharacter* SourceCharacter{nullptr};
+
+	UPROPERTY()
+	UAbilitySystemComponent* TargetASC{nullptr};
+
+	UPROPERTY()
+	AActor* TargetAvatarActor{nullptr};
+
+	UPROPERTY()
+	AController* TargetController{nullptr};
+	
+	UPROPERTY()
+	ACharacter* TargetCharacter{nullptr};
+};
+
 UCLASS()
 class AURA_API UAuraAttributeSet : public UAttributeSet
 {
@@ -22,6 +58,11 @@ public:
 
 	// 将属性标记为需要复制，并指定复制时调用的函数
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	
+	// 在属性值发生变化之前调用，可以在这里进行一些预处理，例如限制属性值的范围等
+	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
+	
+	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 
 	UFUNCTION()
 	void OnRep_Health(const FGameplayAttributeData& OldHealth) const;
@@ -34,6 +75,9 @@ public:
 
 	UFUNCTION()
 	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const;
+
+private:
+	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const;
 
 public:
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Vital Attributes")

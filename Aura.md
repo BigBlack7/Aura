@@ -30,7 +30,7 @@
 
 ### AttributeSet
 	1.持有玩家的生命值、魔法值、等级等属性，并通过GAS进行管理和更新。
-
+    2.通过PreAttributeChange和PostGameplayEffectExecute等函数来处理属性变化前后的逻辑，如属性上限、属性变化时的副作用等。
 ---
 
 ## Game UI💻
