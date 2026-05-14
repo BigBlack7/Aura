@@ -22,8 +22,8 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+	virtual  void InitAbilityActorInfo();
 
-	// ==============类内成员==============
 protected:
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;

@@ -3,8 +3,8 @@
 ## 角色👩&👾
 
 ### CharacterBase
-	持有所有角色类的公共属性和方法并派生出主角和敌人类，包含Weapon。
-	拥有AttributeSet和AbilitySystemComponent。
+	1.持有所有角色类的公共属性和方法并派生出主角和敌人类，包含Weapon。
+	2.拥有AttributeSet和AbilitySystemComponent。
 
 ### Aura（主角）
 	1.使用魔杖，动画蓝图为ABP_Aura，主状态机持有由速度决定的IdelWalkRun混合空间。
@@ -27,6 +27,9 @@
 
 ### AuraPlayerState
 	1.拥有AbilitySystemComponent和AttributeSet,并使用Mixed复制模式。
+
+### AuraAbilitySystemComponent
+    1.使用AbilityActorInfoSet()来为OnGameplayEffectAppliedDelegateToSelf添加效果应用的委托。
 
 ### AttributeSet
 	1.持有玩家的生命值、魔法值、等级等属性，并通过GAS进行管理和更新。
@@ -68,6 +71,13 @@
 ---
 
 ## GAS🗡
+
+## Gameplay Tags
+    1.标签系统用于标记角色状态、技能类型等信息，便于在蓝图和代码中进行条件判断和逻辑处理。
+    2.通过GameplayTagContainer来管理标签，可以添加、移除和查询标签。
+    3.GameplayEffectAssetTag：游戏效果本身拥有但不会赋予角色的标签。
+    4.GrantedTags：对应用该游戏效果的角色应用该标签。对于可堆叠效果也只会获得一次该标签。
+    5.对于即时游戏效果标签没有意义因为效果应用后立刻将被移除，所以标签只会在持续时间内存在。
 
 ### Multiplayer
 	1.Server端，没有人类玩家和屏幕渲染；GameMode仅存在于此；拥有所有PlayerController；有所有PlayerState和PlayerPawn。

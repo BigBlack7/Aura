@@ -36,8 +36,15 @@ void AAuraEnemy::UnHighlightActor()
 void AAuraEnemy::BeginPlay()
 {
 	Super::BeginPlay();
-	// 初始化AbilitySystemComponent，设置它的拥有者和角色信息，使得它能够正确地管理和执行技能
+	InitAbilityActorInfo();
+}
+
+void AAuraEnemy::InitAbilityActorInfo()
+{
+    // 初始化AbilitySystemComponent，设置它的拥有者和角色信息，使得它能够正确地管理和执行技能
 	// 第一个参数是AbilitySystemComponent的拥有者，第二个参数是角色信息，通常是指这个组件所在的Actor
 	// 都设置为this，表示这个组件既是拥有者也是角色信息
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+
+	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();	
 }
