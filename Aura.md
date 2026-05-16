@@ -9,6 +9,7 @@
 ### Aura（主角）
 	1.使用魔杖，动画蓝图为ABP_Aura，主状态机持有由速度决定的IdelWalkRun混合空间。
 	2.在Server和Client都要通过AuraPlayerState设置AttributeSet和AbilitySystemComponent。
+    3.通过InitAbilityActorInfo来初始化AbilitySystemComponent，OwnerActor为PlayerState，AvatarActor为AuraCharacter。
 	
 ### Enemy
 	1.共享一个ABP_Enemy动画蓝图，主状态机持有由速度决定的IdelWalkRun混合空间。
@@ -32,8 +33,11 @@
     1.使用AbilityActorInfoSet()来为OnGameplayEffectAppliedDelegateToSelf添加效果应用的委托。
 
 ### AttributeSet
-	1.持有玩家的生命值、魔法值、等级等属性，并通过GAS进行管理和更新。
+	1.持有玩家核心、主要、次要属性，并通过GAS进行管理和更新。
     2.通过PreAttributeChange和PostGameplayEffectExecute等函数来处理属性变化前后的逻辑，如属性上限、属性变化时的副作用等。
+    3.对属性变化进行上下限处理时，PreAttributeChange仅是改变了从修改器查询到的值，并没有真正修改属性值，
+    真正修改属性值是在PostGameplayEffectExecute中进行的，所以在PreAttributeChange中进行上下限处理是没有正常效果的。
+
 ---
 
 ## Game UI💻
@@ -67,6 +71,10 @@
 	6.效果叠加-按目标聚合（StackingByTarget）：当同一效果多次应用时，根据目标进行叠加，
 	不同源的同种效果都可以叠加（可设置堆叠上限）。同一目标的同种效果会相互影响。
 	7.对于Infinite持续时间且依靠重叠触发的效果，存储该效果句柄和应用效果的角色一一映射，以便在角色离开触发区域时正确移除效果。
+    8.游戏效果蓝图的修改器具体可以使用可缩放浮点数（ScalableFloat）来设置属性变化的数值，这样可以通过数据表或曲线来调整数值，提供更灵活的平衡调整，
+    也可以使用基于属性的修改器（AttributeBased）来根据角色当前属性值进行计算，如根据当前生命值百分比增加伤害等，这样可以实现更动态和有趣的效果。
+    9.对于AttributeBased的修改器，可以用一种属性对另一种产生效果，当有多个属性对同一属性产生效果时，修改器的执行顺序是根据
+    它们在GameplayEffect中的定义顺序来决定的，先定义的修改器会先执行，计算结果将提供给下一个修改器使用。
 
 ---
 
@@ -117,7 +125,8 @@
 	2.默认玩家状态为AuraPlayerState。
 
 ### 细分功能工具
-	1. TargetInterface为所有可选中物体提供接口，被选中时启用描边高亮效果，通过后处理体积附加特殊材质，然后处理被选择物体的深度渲染。
+	1.TargetInterface为所有可选中物体提供接口，被选中时启用描边高亮效果，通过后处理体积附加特殊材质，然后处理被选择物体的深度渲染。
+    2.CombatInterface为所有可攻击物体提供接口，包含获取等级。
 
 # 🌙UE5 Note
 	1.TObjectPtr是一种模板指针类型，用于替代传统的裸指针（Raw Pointer）在某些场景中的使用。它通过封装指针并提供额外的功能，

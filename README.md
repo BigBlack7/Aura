@@ -20,6 +20,9 @@
 	│	└── AuraPlayerController
 	│
 	├── AbilitySystem/
+	│	├── ModMagCalc/
+	│	│	├── MMC_Mana
+	│	│	└── MMC_Health
 	│	├── AuraAttributeSet
 	│	└── AuraAbilitySystemComponent
 	│
@@ -38,6 +41,7 @@
 	│	└── AuraGameModeBase
 	│
 	├── Interaction/
+    │   ├── CombatInterface
 	│	└── TargetInterface
 	│
 	└── Actor/
