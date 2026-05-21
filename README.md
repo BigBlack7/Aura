@@ -20,9 +20,12 @@
 	│	└── AuraPlayerController
 	│
 	├── AbilitySystem/
+	│	├── Data/
+	│	│	└── AttributeData
 	│	├── ModMagCalc/
 	│	│	├── MMC_Mana
 	│	│	└── MMC_Health
+	│	├── AuraAbilitySystemLibrary
 	│	├── AuraAttributeSet
 	│	└── AuraAbilitySystemComponent
 	│
@@ -34,6 +37,7 @@
 	│	│	└── AuraHUD
 	│	│
 	│	└── WidgetController/
+	│		├── AttributeMenuWidgetController
 	│		├── OverlayWidgetController
 	│		└── AuraWidgetController
 	│
@@ -44,8 +48,11 @@
     │   ├── CombatInterface
 	│	└── TargetInterface
 	│
-	└── Actor/
-		└── AuraEffectActor
+	├── Actor/
+	│	└── AuraEffectActor
+    │
+    ├── AuraAssetManager
+    └── AuraGameplayTags
 	
 
 	├── Samples/

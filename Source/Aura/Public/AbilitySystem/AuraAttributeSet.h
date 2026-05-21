@@ -49,6 +49,10 @@ struct FEffectProperties
 	ACharacter* TargetCharacter{nullptr};
 };
 
+// using FAttributeFuncPtr = TBaseStaticDelegateInstance<FGameplayAttribute(), FDefaultDelegateUserPolicy>::FFuncPtr;
+template<typename T>
+using TStaticFuncPtr = TBaseStaticDelegateInstance<T, FDefaultDelegateUserPolicy>::FFuncPtr;
+
 UCLASS()
 class AURA_API UAuraAttributeSet : public UAttributeSet
 {
@@ -119,6 +123,9 @@ private:
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const;
 
 public:
+	// FGameplayAttribute(*)() -> FAttributeFuncPtr -> TBaseStaticDelegateInstance<FGameplayAttribute(), FDefaultDelegateUserPolicy>::FFuncPtr
+	TMap<FGameplayTag, TStaticFuncPtr<FGameplayAttribute()>> TagsToAttributes;
+	
 	/* Vital Attributes */
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Vital Attributes")
 	FGameplayAttributeData Health; // Server向Client同步属性时自动调用OnRep_Health函数

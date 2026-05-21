@@ -37,6 +37,7 @@
     2.通过PreAttributeChange和PostGameplayEffectExecute等函数来处理属性变化前后的逻辑，如属性上限、属性变化时的副作用等。
     3.对属性变化进行上下限处理时，PreAttributeChange仅是改变了从修改器查询到的值，并没有真正修改属性值，
     真正修改属性值是在PostGameplayEffectExecute中进行的，所以在PreAttributeChange中进行上下限处理是没有正常效果的。
+    4.构造时完成TagsToAttributes，即将标签映射到属性的设置并绑定委托。
 
 ---
 
@@ -48,11 +49,16 @@
 
 ### AuraWidgetController
 	1.不感知任何控件，负责从系统中的Model架构获取任何数据（如角色属性集）并将其广播给所有控制器为它的Widget。
+    2.重写BroadcastInitialValues和BindCallbacksToDependencies函数来广播初始属性值和绑定属性变化的回调函数。
 
 ### OverlayWidgetController
 	1.派生自AuraWidgetController，专门为WBP_Overlay提供数据支持。
 	2.创建多个动态多播委托来广播不同属性的变化，如生命值、魔法值等。
 	3.当控件蓝图能够访问控件控制器，广播属性值信息时，就可以分配一个事件来接受这些。
+
+### AttributeMenuWidgetController
+    1.派生自AuraWidgetController，专门为属性菜单提供数据支持。
+    2.创建多个动态多播委托来广播不同属性的变化，如力量、敏捷等。
 
 ### AuraUserWidget
 	1.单方面拥有控件控制器。派生WBP_GlobeProgressBar来制作玩家各类属性的UI显示，如生命值、魔法值等。
@@ -80,12 +86,16 @@
 
 ## GAS🗡
 
-## Gameplay Tags
+### Gameplay Tags
     1.标签系统用于标记角色状态、技能类型等信息，便于在蓝图和代码中进行条件判断和逻辑处理。
     2.通过GameplayTagContainer来管理标签，可以添加、移除和查询标签。
     3.GameplayEffectAssetTag：游戏效果本身拥有但不会赋予角色的标签。
     4.GrantedTags：对应用该游戏效果的角色应用该标签。对于可堆叠效果也只会获得一次该标签。
     5.对于即时游戏效果标签没有意义因为效果应用后立刻将被移除，所以标签只会在持续时间内存在。
+    6.AuraGameplayTags为全局静态类，注册角色属性大量的标签为原生标签。
+
+### AttributeInfo
+    1.一种数据资产类的派生。
 
 ### Multiplayer
 	1.Server端，没有人类玩家和屏幕渲染；GameMode仅存在于此；拥有所有PlayerController；有所有PlayerState和PlayerPawn。
@@ -127,6 +137,8 @@
 ### 细分功能工具
 	1.TargetInterface为所有可选中物体提供接口，被选中时启用描边高亮效果，通过后处理体积附加特殊材质，然后处理被选择物体的深度渲染。
     2.CombatInterface为所有可攻击物体提供接口，包含获取等级。
+    3.AuraAssetManager为全局静态类，替换默认的AssetManager，提供游戏中使用的资源加载和管理功能，如技能数据表、效果蓝图等。
+    4.AuraAbilitySystemLibrary派生自BlueprintFunctionLibrary，提供一些静态函数来简化GAS的使用，如获取ASC、应用效果等。
 
 # 🌙UE5 Note
 	1.TObjectPtr是一种模板指针类型，用于替代传统的裸指针（Raw Pointer）在某些场景中的使用。它通过封装指针并提供额外的功能，
