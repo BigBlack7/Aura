@@ -95,7 +95,8 @@
     6.AuraGameplayTags为全局静态类，注册角色属性大量的标签为原生标签。
 
 ### AttributeInfo
-    1.一种数据资产类的派生。
+    1.UDataAsset数据资产类的派生。通过标签查找属性信息，包含属性标签、属性描述、属性值标签等信息。
+    2.需要在蓝图中设置其成员变量来完成标签信息的聚合关系。
 
 ### Multiplayer
 	1.Server端，没有人类玩家和屏幕渲染；GameMode仅存在于此；拥有所有PlayerController；有所有PlayerState和PlayerPawn。
@@ -125,6 +126,26 @@
 ### Prediction机制
 	1.Game Effects为Client修改属性值时，该变化会立刻在Client上反映出来（预测），同时发送请求到Server验证。
 	2.Server验证后会同步结果给所有Client，不合理的变动会被检测机制回滚，确保最终状态一致合理，避免延迟过高。
+
+### AuraGameplayAbility
+    1.在AuraAbilitySystemComponent中实现初始化能力方法，在角色基类中服务器端调用该方法来为角色添加技能。
+    2.Cancel Abilities with Tags：通过标签取消技能，如当角色被眩晕时取消所有攻击技能。
+    3.Block Abilities with Tags：通过标签阻止技能，如当角色正在施放技能时阻止其他技能的施放。
+    4.Activation Owned Tags：当技能激活时为角色添加标签，如当角色施放隐身技能时添加隐身标签。
+    5.Activation Required Tags：技能激活需要角色拥有特定标签，如隐身技能需要角色拥有隐身标签才能激活。
+    6.Activation Blocked Tags：技能激活被角色拥有特定标签阻止，如当角色被眩晕时拥有眩晕标签，阻止所有攻击技能的激活。
+    7.Source Required Tags：技能激活需要施放者拥有特定标签，如治疗技能需要施放者拥有治疗标签才能激活。
+    8.Source Blocked Tags：技能激活被施放者拥有特定标签阻止，如当施放者被沉默时拥有沉默标签，阻止所有技能的激活。
+    9.Target Required Tags：技能激活需要目标拥有特定标签，如治疗技能需要目标拥有受伤标签才能激活。
+    10.Target Blocked Tags：技能激活被目标拥有特定标签阻止，如攻击技能需要目标没有无敌标签才能激活。
+    11.Instanced for Actor：技能实例化选项，决定了技能在激活时是否为每个角色创建一个独立的实例，还是所有角色共享同一个实例。
+    12.Instanced for Execution：技能实例化选项，决定了技能在每次激活时是否创建一个新的实例（反复创建和销毁性能很低），还是在多次激活之间共享同一个实例。
+    13.Non-Instanced：技能不实例化，所有角色共享同一个技能实例，适用于无状态的技能。
+    14.net execution policy：Local Only（只能在本地执行，适用于视觉效果等不需要服务器验证的技能），
+    Local Predicted（在本地执行并预测结果，适用于需要快速响应的技能，如攻击技能），
+    Server Only（只能在服务器执行，适用于需要严格验证的技能，如治疗技能），
+    Server Initiated（由服务器发起执行，适用于需要服务器控制的技能，如群体增益技能）。
+    15.不需要干预Replication Policy，Server Respects Remove Ability Cancellation和Replicate Input Directly。
 
 ---
 

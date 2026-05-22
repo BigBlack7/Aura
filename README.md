@@ -20,6 +20,8 @@
 	│	└── AuraPlayerController
 	│
 	├── AbilitySystem/
+	│	├── Abilities/
+	│	│	└── AuraGameplayAbility
 	│	├── Data/
 	│	│	└── AttributeData
 	│	├── ModMagCalc/
@@ -43,6 +45,9 @@
 	│
 	├── Game/
 	│	└── AuraGameModeBase
+    │
+	├── Input/
+	│	└── AuraInputConfig
 	│
 	├── Interaction/
     │   ├── CombatInterface
