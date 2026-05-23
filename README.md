@@ -47,6 +47,7 @@
 	│	└── AuraGameModeBase
     │
 	├── Input/
+	│	├── AuraInputComponent
 	│	└── AuraInputConfig
 	│
 	├── Interaction/

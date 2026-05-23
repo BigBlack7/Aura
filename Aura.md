@@ -25,6 +25,7 @@
 ### AuraPlayController移动控制
 	1.使用增强输入系统，绑定IA_Move（获取二维向量）输入映射（WASD）。
 	2.根据输入值控制角色移动方向和速度，WS映射为Y轴，AD映射为X轴。
+    3.AuraInputComponent派生自EnhancedInputComponent，使用BindAbilityActions函数模板来绑定输入映射到技能上。
 
 ### AuraPlayerState
 	1.拥有AbilitySystemComponent和AttributeSet,并使用Mixed复制模式。
