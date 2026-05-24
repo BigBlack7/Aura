@@ -55,6 +55,7 @@
 	│	└── TargetInterface
 	│
 	├── Actor/
+    │   ├── AuraProjectile
 	│	└── AuraEffectActor
     │
     ├── AuraAssetManager
