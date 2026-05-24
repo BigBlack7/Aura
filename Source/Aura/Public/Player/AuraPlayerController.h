@@ -7,6 +7,7 @@
 #include "GameFramework/PlayerController.h"
 #include "AuraPlayerController.generated.h"
 
+class USplineComponent;
 class UAuraInputConfig;
 class UInputMappingContext;
 class UInputAction;
@@ -40,6 +41,8 @@ private:
 
 	UAuraAbilitySystemComponent* GetASC();
 
+	void AutoRun();
+
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputMappingContext> AuraContext; // 输入映射上下文，定义了输入动作和轴的映射关系
@@ -55,4 +58,18 @@ private:
 
 	TScriptInterface<ITargetInterface> LastTarget;
 	TScriptInterface<ITargetInterface> CurrentTarget;
+	FHitResult CursorHit;
+
+	/* Click to Move */
+	FVector CachedDestination = FVector::ZeroVector;
+	float FollowTime = 0.f; // 跟随光标的时间
+	float ShortPressThreshold = 0.5f; // 区别鼠标长按和短按的时间
+	bool bAutoRunning = false; // 判断是否是短按时自动前进状态
+	bool bTargeting = false; // 光标所在地是否有目标
+
+	UPROPERTY(EditDefaultsOnly)
+	float AutoRunAcceptanceRadius = 50.f; // 停止自动前进时距离目的地的范围
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<USplineComponent> Spline;
 };
