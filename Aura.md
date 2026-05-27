@@ -90,7 +90,7 @@
 
 ## GAS🗡
 
-### Gameplay Tags
+### GameplayTags
     1.标签系统用于标记角色状态、技能类型等信息，便于在蓝图和代码中进行条件判断和逻辑处理。
     2.通过GameplayTagContainer来管理标签，可以添加、移除和查询标签。
     3.GameplayEffectAssetTag：游戏效果本身拥有但不会赋予角色的标签。
@@ -130,6 +130,8 @@
 ### Prediction机制
 	1.Game Effects为Client修改属性值时，该变化会立刻在Client上反映出来（预测），同时发送请求到Server验证。
 	2.Server验证后会同步结果给所有Client，不合理的变动会被检测机制回滚，确保最终状态一致合理，避免延迟过高。
+    3.变量仅从服务器向客户端复制。预测键由客户端生成并发送到服务器，服务器验证后将结果复制回客户端（仅发送方）。预测键的生成和验证机制确保了客户端预测的安全性和一致性。
+    4.当客户端预测性的激活一个技能时，创建一个预测窗口，在该窗口内可以发生预测性动作，期间客户端无需服务器许可即可执行改变状态的操作
 
 ### AuraGameplayAbility
     1.在AuraAbilitySystemComponent中实现初始化能力方法，在角色基类中服务器端调用该方法来为角色添加技能。
@@ -150,6 +152,14 @@
     Server Only（只能在服务器执行，适用于需要严格验证的技能，如治疗技能），
     Server Initiated（由服务器发起执行，适用于需要服务器控制的技能，如群体增益技能）。
     15.不需要干预Replication Policy，Server Respects Remove Ability Cancellation和Replicate Input Directly。
+
+### AbilityTask
+    1.TargetDataUnderMouse：一个自定义的AbilityTask，用于获取鼠标下的目标数据，适用于需要鼠标指向的技能，如火球术。
+    2.Client上激活技能后，AbilityTask会调用Activate()，稍后Server上也会调用（经过一个网络传输延迟），
+    也需要通过RPC将数据传回Server进行验证和处理（也需要一个网络延时），先Activate()会导致服务器上没有有效数据。
+    在技能被激活时调用ServerSetReplicatedTargetData()来将数据发送到服务器，绑定一个TargetSet Delegate来广播服务器上的数据，
+    为了确保服务器上数据有效（在服务器Activate()之前就有数据到达然后被广播为无效）可以调用CallReplicatedTargetDataDelegateIfSet()来强制在服务器上调用TargetSet Delegate并检索。
+    
 
 ---
 

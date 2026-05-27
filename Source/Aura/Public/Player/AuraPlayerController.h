@@ -39,8 +39,9 @@ private:
 	void AbilityInputReleased(FGameplayTag InputTag);
 	void AbilityInputHeld(FGameplayTag InputTag);
 
+	void ShiftPressed() { bShiftKeyDown = true; }
+	void ShiftReleased() { bShiftKeyDown = false; }
 	UAuraAbilitySystemComponent* GetASC();
-
 	void AutoRun();
 
 private:
@@ -49,6 +50,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> MoveAction; // 输入动作，定义了玩家移动的输入行为
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UInputAction> ShiftAction; // 输入动作，定义了玩家移动的输入行为
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UAuraInputConfig> InputConfig;
@@ -66,6 +70,7 @@ private:
 	float ShortPressThreshold = 0.5f; // 区别鼠标长按和短按的时间
 	bool bAutoRunning = false; // 判断是否是短按时自动前进状态
 	bool bTargeting = false; // 光标所在地是否有目标
+	bool bShiftKeyDown = false;
 
 	UPROPERTY(EditDefaultsOnly)
 	float AutoRunAcceptanceRadius = 50.f; // 停止自动前进时距离目的地的范围

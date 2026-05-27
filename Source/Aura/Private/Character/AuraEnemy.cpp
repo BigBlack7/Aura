@@ -5,6 +5,8 @@
 #include "Aura/Aura.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
+#include "Components/WidgetComponent.h"
+#include "UI/Widget/AuraUserWidget.h"
 
 AAuraEnemy::AAuraEnemy()
 {
@@ -12,9 +14,13 @@ AAuraEnemy::AAuraEnemy()
 
 	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true); // 启用复制，使得该组件的数据能够在网络中同步
-	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal); // 设置复制模式为Minimal，表示只复制必要的数据，减少网络带宽的使用
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
+	// 设置复制模式为Minimal，表示只复制必要的数据，减少网络带宽的使用
 
-	AttributeSet = CreateDefaultSubobject<UAttributeSet>("AttributeSet");
+	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
+
+	HealthBar = CreateDefaultSubobject<UWidgetComponent>("HealthBar");
+	HealthBar->SetupAttachment(GetRootComponent());
 }
 
 void AAuraEnemy::HighlightActor()
@@ -42,14 +48,41 @@ void AAuraEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 	InitAbilityActorInfo();
+
+	if (UAuraUserWidget* AuraUserWidget = Cast<UAuraUserWidget>(HealthBar->GetUserWidgetObject()))
+	{
+		AuraUserWidget->SetWidgetController(this);
+	}
+	
+	if (const UAuraAttributeSet* AuraAS = Cast<UAuraAttributeSet>(AttributeSet))
+	{
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAS->GetHealthAttribute()).AddLambda(
+			[this](const FOnAttributeChangeData& Data)
+			{
+				OnHealthChanged.Broadcast(Data.NewValue);
+			}
+		);
+
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAS->GetMaxHealthAttribute()).AddLambda(
+			[this](const FOnAttributeChangeData& Data)
+			{
+				OnMaxHealthChanged.Broadcast(Data.NewValue);
+			}
+		);
+
+		OnHealthChanged.Broadcast(AuraAS->GetHealth());
+		OnMaxHealthChanged.Broadcast(AuraAS->GetMaxHealth());
+	}
 }
 
 void AAuraEnemy::InitAbilityActorInfo()
 {
-    // 初始化AbilitySystemComponent，设置它的拥有者和角色信息，使得它能够正确地管理和执行技能
+	// 初始化AbilitySystemComponent，设置它的拥有者和角色信息，使得它能够正确地管理和执行技能
 	// 第一个参数是AbilitySystemComponent的拥有者，第二个参数是角色信息，通常是指这个组件所在的Actor
 	// 都设置为this，表示这个组件既是拥有者也是角色信息
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
 
-	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();	
+	InitializeDefaultAttributes();
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Enemy Actor Info Initialized"));
 }

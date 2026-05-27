@@ -6,6 +6,7 @@
 #include "AbilitySystem/Abilities/AuraGameplayAbility.h"
 #include "AuraProjectileSpell.generated.h"
 
+class UGameplayEffect;
 class AAuraProjectile;
 
 UCLASS()
@@ -18,7 +19,13 @@ protected:
 	                             const FGameplayAbilityActivationInfo ActivationInfo,
 	                             const FGameplayEventData* TriggerEventData) override;
 
+	UFUNCTION(BlueprintCallable, Category = "Projectile")
+	void SpawnProjectile(const FVector& ProjectileTargetLocation);
+	
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSubclassOf<AAuraProjectile> ProjectileClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TSubclassOf<UGameplayEffect> DamageEffectClass;
 };

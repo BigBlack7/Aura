@@ -38,7 +38,7 @@ void UAuraAbilitySystemComponent::AbilityInputTagHeld(const FGameplayTag& InputT
 			AbilitySpecInputPressed(AbilitySpec);
 			if (!AbilitySpec.IsActive())
 			{
-				// 尝试激活该能力
+				// 尝试激活该能力，生成一个FPredictionKey
 				TryActivateAbility(AbilitySpec.Handle);
 			}
 		}

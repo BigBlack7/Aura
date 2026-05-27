@@ -59,6 +59,8 @@ void AAuraPlayerController::SetupInputComponent()
 	// 将MoveAction绑定到EnhancedInputComponent上，当MoveAction被触发时，调用AAuraPlayerController::Move函数
 	// ETriggerEvent::Triggered表示当输入动作被触发时调用绑定的函数，可以根据需要选择不同的触发事件类型
 	AuraInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
+	AuraInputComponent->BindAction(ShiftAction, ETriggerEvent::Started, this, &AAuraPlayerController::ShiftPressed);
+	AuraInputComponent->BindAction(ShiftAction, ETriggerEvent::Completed, this, &AAuraPlayerController::ShiftReleased);
 	AuraInputComponent->BindAbilityActions(InputConfig, this, &AAuraPlayerController::AbilityInputPressed,
 	                                       &AAuraPlayerController::AbilityInputReleased,
 	                                       &AAuraPlayerController::AbilityInputHeld);
@@ -162,14 +164,12 @@ void AAuraPlayerController::AbilityInputReleased(FGameplayTag InputTag)
 		return;
 	}
 
-	if (bTargeting)
+	if (GetASC())
 	{
-		if (GetASC())
-		{
-			GetASC()->AbilityInputTagReleased(InputTag);
-		}
+		GetASC()->AbilityInputTagReleased(InputTag);
 	}
-	else
+	
+	if (!bTargeting && !bShiftKeyDown)
 	{
 		const APawn* ControlledPawn = GetPawn();
 		if (FollowTime <= ShortPressThreshold && ControlledPawn)
@@ -205,7 +205,7 @@ void AAuraPlayerController::AbilityInputHeld(FGameplayTag InputTag)
 		return;
 	}
 
-	if (bTargeting) // 已经瞄准目标并且按下鼠标左键希望激活该能力
+	if (bTargeting  || bShiftKeyDown) // 已经瞄准目标并且按下鼠标左键希望激活该能力
 	{
 		if (GetASC())
 		{
