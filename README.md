@@ -21,11 +21,13 @@
 	│
 	├── AbilitySystem/
 	│	├── Abilities/
+	│	│	├── AuraProjectileSpell
 	│	│	└── AuraGameplayAbility
 	│	├── AbilityTasks/
 	│	│	└── TargetDataUnderMouse
 	│	├── Data/
-	│	│	└── AttributeData
+	│	│	├── CharacterClassInfo
+	│	│	└── AttributeInfo
 	│	├── ModMagCalc/
 	│	│	├── MMC_Mana
 	│	│	└── MMC_Health
@@ -36,10 +38,8 @@
 	├── UI/
 	│	├── Widget/
 	│	│	└── AuraUserWidget
-	│	│
-	│	├── UI/
+	│	├── HUD/
 	│	│	└── AuraHUD
-	│	│
 	│	└── WidgetController/
 	│		├── AttributeMenuWidgetController
 	│		├── OverlayWidgetController

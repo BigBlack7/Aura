@@ -14,6 +14,7 @@
 ### Enemy
 	1.共享一个ABP_Enemy动画蓝图，主状态机持有由速度决定的IdelWalkRun混合空间。
 	2.使用Minimal复制模式来使用GAS。
+    3.在GameMode中存储的角色属性信息表中设置敌人属性。
 
 #### Spear Goblin & Slingshot Goblin 
 	1.使用长矛和弹弓，有各自不同的派生动画蓝图。
@@ -159,7 +160,6 @@
     也需要通过RPC将数据传回Server进行验证和处理（也需要一个网络延时），先Activate()会导致服务器上没有有效数据。
     在技能被激活时调用ServerSetReplicatedTargetData()来将数据发送到服务器，绑定一个TargetSet Delegate来广播服务器上的数据，
     为了确保服务器上数据有效（在服务器Activate()之前就有数据到达然后被广播为无效）可以调用CallReplicatedTargetDataDelegateIfSet()来强制在服务器上调用TargetSet Delegate并检索。
-    
 
 ---
 
@@ -181,7 +181,10 @@
 
 	2.对于SpringArm和Camera组件，在蓝图中实现与C++实现无性能差异。
 
-	3. UxxxInterface给引擎看的，IxxxInterface给程序员写逻辑的。IxxxInterface作为成员变量时需要TScriptInterface包装，
+	3.UxxxInterface给引擎看的，IxxxInterface给程序员写逻辑的。IxxxInterface作为成员变量时需要TScriptInterface包装，
 	TScriptInterface会自动处理接口指针的生命周期和类型安全问题，避免了手动管理内存和类型转换的复杂性。
 
 	4.DebugMode运行编辑器可以使用控制台显示AbilitySystem的相关信息，如主角的AttributeSet属性值等，也可以切换到场景其他目标。
+    
+    5.MakeEffectContext()创建"效果环境信息容器"，生成一个FGameplayEffectContextHandle，专门存储这个效果的 "来龙去脉"—— 即效果发生时的所有环境信息。
+    MakeOutgoingSpec()创建"可执行的效果实例"，生成一个FGameplayEffectSpecHandle，它是Gameplay Effect类的"运行时实例"——把静态的GE蓝图/类和动态的上下文、等级结合起来，变成一个可以实际应用到目标上的"效果包"。
