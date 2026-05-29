@@ -37,6 +37,7 @@
 	│
 	├── UI/
 	│	├── Widget/
+	│	│	├── DamageTextComponent
 	│	│	└── AuraUserWidget
 	│	├── HUD/
 	│	│	└── AuraHUD

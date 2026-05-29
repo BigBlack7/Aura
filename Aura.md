@@ -15,6 +15,7 @@
 	1.共享一个ABP_Enemy动画蓝图，主状态机持有由速度决定的IdelWalkRun混合空间。
 	2.使用Minimal复制模式来使用GAS。
     3.在GameMode中存储的角色属性信息表中设置敌人属性。
+    4.在死亡时使用动态材质实例实现死亡时动态溶解效果。
 
 #### Spear Goblin & Slingshot Goblin 
 	1.使用长矛和弹弓，有各自不同的派生动画蓝图。
@@ -171,7 +172,7 @@
 
 ### 细分功能工具
 	1.TargetInterface为所有可选中物体提供接口，被选中时启用描边高亮效果，通过后处理体积附加特殊材质，然后处理被选择物体的深度渲染。
-    2.CombatInterface为所有可攻击物体提供接口，包含获取等级。
+    2.CombatInterface为所有可攻击物体提供接口，包含获取等级、死亡（布娃娃实现）、获取受击蒙太奇。
     3.AuraAssetManager为全局静态类，替换默认的AssetManager，提供游戏中使用的资源加载和管理功能，如技能数据表、效果蓝图等。
     4.AuraAbilitySystemLibrary派生自BlueprintFunctionLibrary，提供一些静态函数来简化GAS的使用，如获取ASC、应用效果等。
 
@@ -188,3 +189,5 @@
     
     5.MakeEffectContext()创建"效果环境信息容器"，生成一个FGameplayEffectContextHandle，专门存储这个效果的 "来龙去脉"—— 即效果发生时的所有环境信息。
     MakeOutgoingSpec()创建"可执行的效果实例"，生成一个FGameplayEffectSpecHandle，它是Gameplay Effect类的"运行时实例"——把静态的GE蓝图/类和动态的上下文、等级结合起来，变成一个可以实际应用到目标上的"效果包"。
+
+    6.UGameplayEffectExecutionCalcultion可以修改多种属性，但不能预测；及时性和周期性游戏效果只能使用其中一种；捕获这些属性不会在属性变更前运行。默认在服务器上计算执行。
