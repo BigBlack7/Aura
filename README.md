@@ -31,6 +31,8 @@
 	│	├── ModMagCalc/
 	│	│	├── MMC_Mana
 	│	│	└── MMC_Health
+	│	├── ExecCalc/
+	│	│	└── ExecCalc_Damage
 	│	├── AuraAbilitySystemLibrary
 	│	├── AuraAttributeSet
 	│	└── AuraAbilitySystemComponent
