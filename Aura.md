@@ -162,6 +162,13 @@
     在技能被激活时调用ServerSetReplicatedTargetData()来将数据发送到服务器，绑定一个TargetSet Delegate来广播服务器上的数据，
     为了确保服务器上数据有效（在服务器Activate()之前就有数据到达然后被广播为无效）可以调用CallReplicatedTargetDataDelegateIfSet()来强制在服务器上调用TargetSet Delegate并检索。
 
+### AuraAbilityTypes
+    1.具有派生自FGameplayEffectContext的效果上下类。
+    2.定义一系列网络系列化变量
+
+### AuraAbilitySystemGlobals
+    
+
 ---
 
 ## 其他功能🔧
@@ -191,3 +198,5 @@
     MakeOutgoingSpec()创建"可执行的效果实例"，生成一个FGameplayEffectSpecHandle，它是Gameplay Effect类的"运行时实例"——把静态的GE蓝图/类和动态的上下文、等级结合起来，变成一个可以实际应用到目标上的"效果包"。
 
     6.UGameplayEffectExecutionCalcultion可以修改多种属性，但不能预测；及时性和周期性游戏效果只能使用其中一种；捕获这些属性不会在属性变更前运行。默认在服务器上计算执行。
+
+    7.BlueprintPure不适用于会产生副作用的函数。

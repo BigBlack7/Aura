@@ -34,6 +34,7 @@
 	│	├── ExecCalc/
 	│	│	└── ExecCalc_Damage
 	│	├── AuraAbilitySystemLibrary
+	│	├── AuraAbilitySystemGlobals
 	│	├── AuraAttributeSet
 	│	└── AuraAbilitySystemComponent
 	│
@@ -64,6 +65,7 @@
 	│	└── AuraEffectActor
     │
     ├── AuraAssetManager
+    ├── AuraAbilityTypes
     └── AuraGameplayTags
 	
 

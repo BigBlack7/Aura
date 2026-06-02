@@ -69,7 +69,10 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	float TargetBlockChance = 0.f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().BlockChanceDef, EvaluationParameters, TargetBlockChance);
 	TargetBlockChance = FMath::Max(TargetBlockChance, 0.f);
-	if (FMath::RandRange(1, 100) < TargetBlockChance)
+	const bool bBlocked = FMath::RandRange(1, 100) < TargetBlockChance;
+	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
+	UAuraAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bBlocked);
+	if (bBlocked)
 	{
 		Damage *= 0.5f;
 	}
@@ -104,11 +107,11 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	SourceCriticalHitDamage = FMath::Max(SourceCriticalHitDamage, 0.f);
 	TargetCriticalHitResistance = FMath::Max(TargetCriticalHitResistance, 0.f);
 	const float EffectiveCriticalHitChance = SourceCriticalHitChange - TargetCriticalHitResistance * CriticalHitResistanceCoefficient;
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("EffectiveCriticalHitChance: %f"), EffectiveCriticalHitChance));
-	if (FMath::RandRange(1, 100) < EffectiveCriticalHitChance)
+	const bool bCriticalHit = FMath::RandRange(1, 100) < EffectiveCriticalHitChance;
+	UAuraAbilitySystemLibrary::SetIsCriticalHit(EffectContextHandle, bCriticalHit);
+	if (bCriticalHit)
 	{
 		Damage = 2.f * Damage + SourceCriticalHitDamage;
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Critical Hit!"));
 	}
 
 	const FGameplayModifierEvaluatedData EvaluationData(UAuraAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, Damage);
