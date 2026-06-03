@@ -68,7 +68,10 @@ protected:
 	EEffectRemovalPolicy InfiniteEffectRemovalPolicy{ EEffectRemovalPolicy::RemoveOnEndOverlap };
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effect")
-	bool bDestroyOnEffectRemoval{ false };
+	bool bDestroyOnEffectApplication{ false };
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effect")
+	bool bApplyEffectsToEnemies{ false };
 
 	TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> ActiveEffectHandles;
 

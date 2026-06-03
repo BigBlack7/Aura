@@ -16,9 +16,11 @@
 	2.使用Minimal复制模式来使用GAS。
     3.在GameMode中存储的角色属性信息表中设置敌人属性。
     4.在死亡时使用动态材质实例实现死亡时动态溶解效果。
+    5.AuraAIController来操控行为树逻辑。
 
 #### Spear Goblin & Slingshot Goblin 
 	1.使用长矛和弹弓，有各自不同的派生动画蓝图。
+    2.游侠使用EQS查询判定玩家位置然后选择可行位置移动，近战使用简单的距离判定。
 
 ---
 
@@ -189,17 +191,12 @@
 # 🌙UE5 Note
 	1.TObjectPtr是一种模板指针类型，用于替代传统的裸指针（Raw Pointer）在某些场景中的使用。它通过封装指针并提供额外的功能，
 	如懒加载和访问追踪，提升了编辑器模式下的性能和调试能力，同时在非编辑器模式下保持与裸指针相同的效用。
-
 	2.对于SpringArm和Camera组件，在蓝图中实现与C++实现无性能差异。
-
 	3.UxxxInterface给引擎看的，IxxxInterface给程序员写逻辑的。IxxxInterface作为成员变量时需要TScriptInterface包装，
 	TScriptInterface会自动处理接口指针的生命周期和类型安全问题，避免了手动管理内存和类型转换的复杂性。
-
 	4.DebugMode运行编辑器可以使用控制台显示AbilitySystem的相关信息，如主角的AttributeSet属性值等，也可以切换到场景其他目标。
-    
     5.MakeEffectContext()创建"效果环境信息容器"，生成一个FGameplayEffectContextHandle，专门存储这个效果的 "来龙去脉"—— 即效果发生时的所有环境信息。
     MakeOutgoingSpec()创建"可执行的效果实例"，生成一个FGameplayEffectSpecHandle，它是Gameplay Effect类的"运行时实例"——把静态的GE蓝图/类和动态的上下文、等级结合起来，变成一个可以实际应用到目标上的"效果包"。
-
     6.UGameplayEffectExecutionCalcultion可以修改多种属性，但不能预测；及时性和周期性游戏效果只能使用其中一种；捕获这些属性不会在属性变更前运行。默认在服务器上计算执行。
-
     7.BlueprintPure不适用于会产生副作用的函数。
+    8.行为树中按从左到右顺序执行，只有当前节点执行失败才会执行下一个，否则循环执行当前节点。

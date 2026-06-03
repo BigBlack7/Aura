@@ -53,6 +53,9 @@
 	├── Game/
 	│	└── AuraGameModeBase
     │
+	├── AI/
+	│	└── AuraAIController
+    │
 	├── Input/
 	│	├── AuraInputComponent
 	│	└── AuraInputConfig
@@ -68,16 +71,3 @@
     ├── AuraAssetManager
     ├── AuraAbilityTypes
     └── AuraGameplayTags
-	
-
-	├── Samples/
-	│	├── Moudel/
-	│	│	├── Submoudel01
-	│	│	├── Submoudel02
-	│	│	└── Submoudel03
-	│	│
-	│	├── Moudel/
-	│	└── Moudel
-	│
-	├── Samples/
-	└── Samples
