@@ -155,6 +155,9 @@
     Server Initiated（由服务器发起执行，适用于需要服务器控制的技能，如群体增益技能）。
     15.不需要干预Replication Policy，Server Respects Remove Ability Cancellation和Replicate Input Directly。
 
+### AuraDamageGameplayAbility
+    1.派生自AuraGameplayAbility，专门用于处理伤害技能类型。
+
 ### AbilityTask
     1.TargetDataUnderMouse：一个自定义的AbilityTask，用于获取鼠标下的目标数据，适用于需要鼠标指向的技能，如火球术。
     2.Client上激活技能后，AbilityTask会调用Activate()，稍后Server上也会调用（经过一个网络传输延迟），
@@ -167,7 +170,7 @@
     2.定义一系列网络系列化变量
 
 ### AuraAbilitySystemGlobals
-    
+    1.派生自UAbilitySystemGlobals，重写AllocGameplayEffectContext()来返回自定义的效果上下类。
 
 ---
 

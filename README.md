@@ -22,6 +22,7 @@
 	├── AbilitySystem/
 	│	├── Abilities/
 	│	│	├── AuraProjectileSpell
+	│	│	├── AuraDamageGameplayAbility
 	│	│	└── AuraGameplayAbility
 	│	├── AbilityTasks/
 	│	│	└── TargetDataUnderMouse
