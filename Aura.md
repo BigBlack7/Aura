@@ -5,6 +5,7 @@
 ### CharacterBase
 	1.持有所有角色类的公共属性和方法并派生出主角和敌人类，包含Weapon。
 	2.拥有AttributeSet和AbilitySystemComponent。
+    3.使用左右手插槽以及武器插槽名来与游戏标签对应，以获得正确的攻击响应。
 
 ### Aura（主角）
 	1.使用魔杖，动画蓝图为ABP_Aura，主状态机持有由速度决定的IdelWalkRun混合空间。
@@ -21,6 +22,10 @@
 #### Spear Goblin & Slingshot Goblin 
 	1.使用长矛和弹弓，有各自不同的派生动画蓝图。
     2.游侠使用EQS查询判定玩家位置然后选择可行位置移动，近战使用简单的距离判定。
+    3.近战使用AuraMeleeAttack进行攻击。
+
+### Ghoul
+    1.使用双手攻击，动画蓝图为ABP_Ghoul。
 
 ---
 

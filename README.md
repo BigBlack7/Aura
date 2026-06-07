@@ -22,6 +22,7 @@
 	├── AbilitySystem/
 	│	├── Abilities/
 	│	│	├── AuraProjectileSpell
+	│	│	├── AuraMeleeAttack
 	│	│	├── AuraDamageGameplayAbility
 	│	│	└── AuraGameplayAbility
 	│	├── AbilityTasks/
