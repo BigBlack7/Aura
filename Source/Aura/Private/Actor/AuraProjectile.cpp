@@ -49,6 +49,7 @@ void AAuraProjectile::Destroyed()
 		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
 		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
 		if (LoopingAudioComponent) LoopingAudioComponent->Stop();
+		bHit = true;
 	}
 	Super::Destroyed();
 }
@@ -64,6 +65,7 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, 
 		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
 		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
 		if (LoopingAudioComponent) LoopingAudioComponent->Stop();
+		bHit = true;
 	}
 
 	// 防止在OnSphereOverlap被调用之前，销毁的行为可能会被复制到客户端，此时投射物将在命中效果起效之前被销毁。
