@@ -50,6 +50,7 @@ public:
 	FGameplayTag Abilities_Attack;
 	
 	FGameplayTag CombatSocket_Weapon;
+	FGameplayTag CombatSocket_Tail;
 	FGameplayTag CombatSocket_RightHand;
 	FGameplayTag CombatSocket_LeftHand;
 

@@ -19,10 +19,12 @@
     4.在死亡时使用动态材质实例实现死亡时动态溶解效果。
     5.AuraAIController来操控行为树逻辑。
 
-#### Spear Goblin & Slingshot Goblin 
+#### Spear Goblin & Slingshot Goblin & Shaman
 	1.使用长矛和弹弓，有各自不同的派生动画蓝图。
     2.游侠使用EQS查询判定玩家位置然后选择可行位置移动，近战使用简单的距离判定。
     3.近战使用AuraMeleeAttack进行攻击。
+    4.萨满使用火球攻击，并可以召唤恶魔小怪。
+    5.恶魔小怪使用尾巴左右甩击，还可以使用石块投掷攻击。
 
 ### Ghoul
     1.使用双手攻击，动画蓝图为ABP_Ghoul。
