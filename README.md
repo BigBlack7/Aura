@@ -24,6 +24,7 @@
 	│	│	├── AuraProjectileSpell
 	│	│	├── AuraMeleeAttack
 	│	│	├── AuraDamageGameplayAbility
+	│	│	├── AuraSummonAbility
 	│	│	└── AuraGameplayAbility
 	│	├── AbilityTasks/
 	│	│	└── TargetDataUnderMouse

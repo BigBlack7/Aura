@@ -129,10 +129,14 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FName("Attributes.Resistance.Physical"),
 		FString("Resistance to Physical Damage"));
 
-	// ==========================Attack Types=========================
+	// ==========================Abilities Types=========================
 	GameplayTags.Abilities_Attack = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Abilities.Attack"),
 		FString("Tag for Attack Ability"));
+
+	GameplayTags.Abilities_Summon = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Abilities.Summon"),
+		FString("Tag for Summon Ability"));
 
 	// ==========================Combat Socket=========================
 	GameplayTags.CombatSocket_Weapon = UGameplayTagsManager::Get().AddNativeGameplayTag(

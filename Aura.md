@@ -23,7 +23,7 @@
 	1.使用长矛和弹弓，有各自不同的派生动画蓝图。
     2.游侠使用EQS查询判定玩家位置然后选择可行位置移动，近战使用简单的距离判定。
     3.近战使用AuraMeleeAttack进行攻击。
-    4.萨满使用火球攻击，并可以召唤恶魔小怪。
+    4.萨满使用火球攻击，并可以召唤恶魔小怪。AuraSummonAbility来实现召唤逻辑。
     5.恶魔小怪使用尾巴左右甩击，还可以使用石块投掷攻击。
 
 ### Ghoul
@@ -174,6 +174,9 @@
     也需要通过RPC将数据传回Server进行验证和处理（也需要一个网络延时），先Activate()会导致服务器上没有有效数据。
     在技能被激活时调用ServerSetReplicatedTargetData()来将数据发送到服务器，绑定一个TargetSet Delegate来广播服务器上的数据，
     为了确保服务器上数据有效（在服务器Activate()之前就有数据到达然后被广播为无效）可以调用CallReplicatedTargetDataDelegateIfSet()来强制在服务器上调用TargetSet Delegate并检索。
+
+### AuraSummonAbility
+    1.派生自AuraGameplayAbility，用于处理Shaman召唤恶魔，在其前方分布。
 
 ### AuraAbilityTypes
     1.具有派生自FGameplayEffectContext的效果上下类。
