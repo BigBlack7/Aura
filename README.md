@@ -28,8 +28,11 @@
 	│	│	└── AuraGameplayAbility
 	│	├── AbilityTasks/
 	│	│	└── TargetDataUnderMouse
+	│	├── AsyncTasks/
+	│	│	└── WaitCooldownChange
 	│	├── Data/
 	│	│	├── CharacterClassInfo
+	│	│	├── AbilityInfo
 	│	│	└── AttributeInfo
 	│	├── ModMagCalc/
 	│	│	├── MMC_Mana
@@ -72,4 +75,5 @@
     │
     ├── AuraAssetManager
     ├── AuraAbilityTypes
-    └── AuraGameplayTags
+    ├── AuraGameplayTags
+    └── AuraLogChannels

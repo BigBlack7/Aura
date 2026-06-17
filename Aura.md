@@ -11,6 +11,7 @@
 	1.使用魔杖，动画蓝图为ABP_Aura，主状态机持有由速度决定的IdelWalkRun混合空间。
 	2.在Server和Client都要通过AuraPlayerState设置AttributeSet和AbilitySystemComponent。
     3.通过InitAbilityActorInfo来初始化AbilitySystemComponent，OwnerActor为PlayerState，AvatarActor为AuraCharacter。
+    4.AbilityInfo数据表中设置主角技能信息，绑定到UI部件显示。
 	
 ### Enemy
 	1.共享一个ABP_Enemy动画蓝图，主状态机持有由速度决定的IdelWalkRun混合空间。
@@ -184,6 +185,9 @@
 
 ### AuraAbilitySystemGlobals
     1.派生自UAbilitySystemGlobals，重写AllocGameplayEffectContext()来返回自定义的效果上下类。
+
+### WaitCooldownChange
+    1.通过自定义的异步任务来监听技能冷却时间的变化，适用于需要根据技能冷却状态更新UI的情况，如当技能冷却结束时显示可用提示。
 
 ---
 

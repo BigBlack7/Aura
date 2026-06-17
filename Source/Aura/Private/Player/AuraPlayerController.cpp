@@ -159,42 +159,52 @@ void AAuraPlayerController::CursorTrace()
 
 void AAuraPlayerController::AbilityInputPressed(FGameplayTag InputTag)
 {
-	if (InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
+	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
+
+	if (InputTag.MatchesTagExact(GameplayTags.InputTag_LMB))
 	{
+		// 左键只负责攻击逻辑
 		bTargeting = CurrentTarget ? true : false;
 		bAutoRunning = false;
+		return;
+	}
+
+	if (InputTag.MatchesTagExact(GameplayTags.InputTag_RMB))
+	{
+		// 右键只负责移动逻辑
+		bTargeting = false;
+		bAutoRunning = false;
+		FollowTime = 0.f;
+
+		if (CursorHit.bBlockingHit)
+		{
+			CachedDestination = CursorHit.ImpactPoint;
+		}
+		return;
 	}
 }
 
 void AAuraPlayerController::AbilityInputReleased(FGameplayTag InputTag)
 {
-	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
-	{
-		if (GetASC())
-		{
-			GetASC()->AbilityInputTagReleased(InputTag);
-		}
-		return;
-	}
+	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
 
-	if (GetASC())
-	{
-		GetASC()->AbilityInputTagReleased(InputTag);
-	}
-
-	if (!bTargeting && !bShiftKeyDown)
+	// 右键释放：短按自动寻路
+	if (InputTag.MatchesTagExact(GameplayTags.InputTag_RMB))
 	{
 		const APawn* ControlledPawn = GetPawn();
+
 		if (FollowTime <= ShortPressThreshold && ControlledPawn)
 		{
 			if (UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(
 				this, ControlledPawn->GetActorLocation(), CachedDestination))
 			{
 				Spline->ClearSplinePoints();
+
 				for (const FVector& PointLoc : NavPath->PathPoints)
 				{
 					Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
 				}
+
 				if (NavPath->PathPoints.Num() > 0)
 				{
 					CachedDestination = NavPath->PathPoints.Last();
@@ -202,31 +212,37 @@ void AAuraPlayerController::AbilityInputReleased(FGameplayTag InputTag)
 				}
 			}
 		}
+
 		FollowTime = 0.f;
+		return;
+	}
+
+	// 左键释放：只释放攻击能力，不再处理移动
+	if (InputTag.MatchesTagExact(GameplayTags.InputTag_LMB))
+	{
+		if (GetASC())
+		{
+			GetASC()->AbilityInputTagReleased(InputTag);
+		}
+
 		bTargeting = false;
+		FollowTime = 0.f;
+		return;
+	}
+
+	// 其他技能键释放
+	if (GetASC())
+	{
+		GetASC()->AbilityInputTagReleased(InputTag);
 	}
 }
 
 void AAuraPlayerController::AbilityInputHeld(FGameplayTag InputTag)
 {
-	// 非鼠标左键通知AbilitySystemComponent输入被按下需要执行操作
-	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
-	{
-		if (GetASC())
-		{
-			GetASC()->AbilityInputTagHeld(InputTag);
-		}
-		return;
-	}
+	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
 
-	if (bTargeting || bShiftKeyDown) // 已经瞄准目标并且按下鼠标左键希望激活该能力
-	{
-		if (GetASC())
-		{
-			GetASC()->AbilityInputTagHeld(InputTag);
-		}
-	}
-	else // 此时应当是自动移动功能
+	// 右键按住：移动
+	if (InputTag.MatchesTagExact(GameplayTags.InputTag_RMB))
 	{
 		FollowTime += GetWorld()->GetDeltaSeconds();
 
@@ -240,6 +256,27 @@ void AAuraPlayerController::AbilityInputHeld(FGameplayTag InputTag)
 			const FVector WorldDirection = (CachedDestination - ControlledPawn->GetActorLocation()).GetSafeNormal();
 			ControlledPawn->AddMovementInput(WorldDirection);
 		}
+		return;
+	}
+
+	// 左键按住：只有点到目标，或者按住 Shift，才释放攻击能力
+	if (InputTag.MatchesTagExact(GameplayTags.InputTag_LMB))
+	{
+		if (bTargeting || bShiftKeyDown)
+		{
+			if (GetASC())
+			{
+				GetASC()->AbilityInputTagHeld(InputTag);
+			}
+		}
+
+		return;
+	}
+
+	// 其他技能键正常传给 ASC
+	if (GetASC())
+	{
+		GetASC()->AbilityInputTagHeld(InputTag);
 	}
 }
 
